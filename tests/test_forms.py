@@ -35,13 +35,13 @@ class TaskFormTest(TestCase):
     def test_task_form_no_data(self):
         form = TaskForm(data={})
         self.assertFalse(form.is_valid())
-        self.assertEqual(len(form.errors), 6)  # всі обов'язкові поля генерують помилки
+        self.assertEqual(len(form.errors), 6)
         
     def test_task_form_invalid_date(self):
         form_data = {
             "name": "Fix login bug",
             "description": "Users can't login using special characters",
-            "deadline": "not-a-date",  # Неправильний формат дати
+            "deadline": "not-a-date",
             "priority": "High",
             "task_type": self.task_type.pk,
             "assignees": [self.worker.pk],
@@ -100,7 +100,7 @@ class WorkerCreationFormTest(TestCase):
             "email": "new@example.com",
             "position": self.position.pk,
             "password1": "complex_password123",
-            "password2": "different_password",  # Паролі не збігаються
+            "password2": "different_password",
         }
         form = WorkerCreationForm(data=form_data)
         self.assertFalse(form.is_valid())

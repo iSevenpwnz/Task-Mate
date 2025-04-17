@@ -10,8 +10,7 @@ from task_app.models import Task, Worker, Position, TaskType
 class IndexViewTest(TestCase):
     def setUp(self):
         self.client = Client()
-        
-        # Створення тестових даних
+
         Position.objects.create(name="Developer")
         TaskType.objects.create(name="Bug Fix")
         Worker.objects.create(
@@ -42,13 +41,12 @@ class IndexViewTest(TestCase):
 class TaskViewsTest(TestCase):
     def setUp(self):
         self.client = Client()
-        
-        # Створення користувача для авторизації
+
         self.user = Worker.objects.create_user(
             username="testuser",
             password="testpassword123"
         )
-        
+
         # Створення тестових даних
         task_type = TaskType.objects.create(name="Feature")
         self.task = Task.objects.create(
@@ -59,8 +57,7 @@ class TaskViewsTest(TestCase):
             task_type=task_type
         )
         self.task.assignees.add(self.user)
-        
-        # Вхід користувача
+
         self.client.login(username="testuser", password="testpassword123")
 
     def test_task_list_view(self):
@@ -68,18 +65,18 @@ class TaskViewsTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "task_app/task_list.html")
         self.assertContains(response, "Implement login")
-        
+
     def test_task_detail_view(self):
         response = self.client.get(reverse("task-detail", kwargs={"pk": self.task.pk}))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "task_app/task_detail.html")
         self.assertEqual(response.context["task"], self.task)
-        
+
     def test_task_complete(self):
         self.assertFalse(self.task.is_completed)
         response = self.client.get(reverse("task-complete", kwargs={"pk": self.task.pk}))
         self.assertRedirects(response, reverse("task-detail", kwargs={"pk": self.task.pk}))
-        # Перевірка, що завдання позначено як виконане
+
         self.task.refresh_from_db()
         self.assertTrue(self.task.is_completed)
 
@@ -87,15 +84,13 @@ class TaskViewsTest(TestCase):
 class WorkerViewsTest(TestCase):
     def setUp(self):
         self.client = Client()
-        
-        # Створення користувача для авторизації
+
         self.admin = Worker.objects.create_superuser(
             username="admin",
             password="admin123",
             email="admin@example.com"
         )
-        
-        # Створення тестових даних
+
         self.position = Position.objects.create(name="QA Engineer")
         self.worker = Worker.objects.create_user(
             username="worker1",
@@ -105,8 +100,7 @@ class WorkerViewsTest(TestCase):
             email="worker@example.com",
             position=self.position
         )
-        
-        # Вхід адміністратора
+
         self.client.login(username="admin", password="admin123")
 
     def test_worker_list_view(self):
@@ -114,7 +108,7 @@ class WorkerViewsTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "task_app/worker_list.html")
         self.assertContains(response, "worker1")
-        
+
     def test_worker_detail_view(self):
         response = self.client.get(reverse("worker-detail", kwargs={"pk": self.worker.pk}))
         self.assertEqual(response.status_code, 200)
@@ -125,18 +119,15 @@ class WorkerViewsTest(TestCase):
 class PositionAndTaskTypeViewsTest(TestCase):
     def setUp(self):
         self.client = Client()
-        
-        # Створення користувача для авторизації
+
         self.admin = Worker.objects.create_superuser(
             username="admin",
             password="admin123"
         )
-        
-        # Створення тестових даних
+
         self.position = Position.objects.create(name="Project Manager")
         self.task_type = TaskType.objects.create(name="Documentation")
-        
-        # Вхід адміністратора
+
         self.client.login(username="admin", password="admin123")
 
     def test_position_list_view(self):
@@ -144,7 +135,7 @@ class PositionAndTaskTypeViewsTest(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "task_app/position_list.html")
         self.assertContains(response, "Project Manager")
-        
+
     def test_tasktype_list_view(self):
         response = self.client.get(reverse("tasktype-list"))
         self.assertEqual(response.status_code, 200)
