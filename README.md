@@ -1,5 +1,7 @@
 # Система Управління Завданнями Команди
 
+https://task-mate-5od7.onrender.com
+
 Система для ефективного управління завданнями в IT-команді, яка дозволяє створювати завдання, призначати їх членам команди та відстежувати їх виконання.
 
 ## Опис проекту
@@ -99,6 +101,8 @@ python manage.py test tests
 ---
 
 # Team Task Management System
+
+https://task-mate-5od7.onrender.com
 
 A system for effective task management in IT teams, allowing users to create tasks, assign them to team members, and track their completion.
 
