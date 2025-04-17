@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}{{ task.name }} - Task Manager{% endblock %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h2>{{ task.name }}</h2>
+      <div class="btn-group">
+        <a href="{% url 'task-update' task.id %}" class="btn btn-outline-primary">Edit</a>
+        <a href="{% url 'task-delete' task.id %}" class="btn btn-outline-danger">Delete</a>
+        {% if not task.is_completed %}
+          <a href="{% url 'task-complete' task.id %}" class="btn btn-success">Mark as Complete</a>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="card-body">
+      <div class="row mb-4">
+        <div class="col-md-4">
+          <p class="mb-1"><strong>Type:</strong></p>
+          <p>{{ task.task_type }}</p>
+        </div>
+        <div class="col-md-4">
+          <p class="mb-1"><strong>Priority:</strong></p>
+          <p>
+            {% if task.priority == "Urgent" %}
+              <span class="badge bg-danger">{{ task.priority }}</span>
+            {% elif task.priority == "High" %}
+              <span class="badge bg-warning">{{ task.priority }}</span>
+            {% elif task.priority == "Medium" %}
+              <span class="badge bg-info">{{ task.priority }}</span>
+            {% else %}
+              <span class="badge bg-secondary">{{ task.priority }}</span>
+            {% endif %}
+          </p>
+        </div>
+        <div class="col-md-4">
+          <p class="mb-1"><strong>Status:</strong></p>
+          <p>
+            {% if task.is_completed %}
+              <span class="badge bg-success">Completed</span>
+            {% else %}
+              <span class="badge bg-warning">In Progress</span>
+            {% endif %}
+          </p>
+        </div>
+      </div>
+
+      <div class="row mb-4">
+        <div class="col-md-6">
+          <p class="mb-1"><strong>Deadline:</strong></p>
+          <p>{{ task.deadline }}</p>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <h5>Description:</h5>
+        <div class="card">
+          <div class="card-body">
+            {{ task.description|linebreaks }}
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <h5>Assigned to:</h5>
+        {% if task.assignees.all %}
+          <ul class="list-group">
+            {% for worker in task.assignees.all %}
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                  <a href="{% url 'worker-detail' worker.id %}">{{ worker.first_name }} {{ worker.last_name }}</a>
+                  {% if worker.position %}
+                    <span class="badge bg-secondary">{{ worker.position }}</span>
+                  {% endif %}
+                </div>
+                <small class="text-muted">{{ worker.email }}</small>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p class="text-muted">No team members assigned to this task.</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="card-footer text-muted">
+      <a href="{% url 'task-list' %}" class="btn btn-outline-secondary">Back to All Tasks</a>
+    </div>
+  </div>
+{% endblock %}

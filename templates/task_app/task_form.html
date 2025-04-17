@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block title %}
+  {% if form.instance.id %}
+    Edit Task: {{ form.instance.name }}
+  {% else %}
+    Create New Task
+  {% endif %}
+  - Task Manager
+{% endblock %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header">
+      <h2>
+        {% if form.instance.id %}
+          Edit Task: {{ form.instance.name }}
+        {% else %}
+          Create New Task
+        {% endif %}
+      </h2>
+    </div>
+
+    <div class="card-body">
+      <form method="post" novalidate>
+        {% csrf_token %}
+
+        <div class="mb-3">
+          <label for="{{ form.name.id_for_label }}" class="form-label">Task Name</label>
+          {{ form.name }}
+          {% if form.name.errors %}
+            <div class="text-danger">
+              {% for error in form.name.errors %}
+                {{ error }}
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="mb-3">
+          <label for="{{ form.description.id_for_label }}" class="form-label">Description</label>
+          {{ form.description }}
+          {% if form.description.errors %}
+            <div class="text-danger">
+              {% for error in form.description.errors %}
+                {{ error }}
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label for="{{ form.deadline.id_for_label }}" class="form-label">Deadline</label>
+              {{ form.deadline }}
+              {% if form.deadline.errors %}
+                <div class="text-danger">
+                  {% for error in form.deadline.errors %}
+                    {{ error }}
+                  {% endfor %}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label for="{{ form.priority.id_for_label }}" class="form-label">Priority</label>
+              {{ form.priority }}
+              {% if form.priority.errors %}
+                <div class="text-danger">
+                  {% for error in form.priority.errors %}
+                    {{ error }}
+                  {% endfor %}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="{{ form.task_type.id_for_label }}" class="form-label">Task Type</label>
+          {{ form.task_type }}
+          {% if form.task_type.errors %}
+            <div class="text-danger">
+              {% for error in form.task_type.errors %}
+                {{ error }}
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="mb-3">
+          <label for="{{ form.assignees.id_for_label }}" class="form-label">Assign To</label>
+          {{ form.assignees }}
+          {% if form.assignees.errors %}
+            <div class="text-danger">
+              {% for error in form.assignees.errors %}
+                {{ error }}
+              {% endfor %}
+            </div>
+          {% endif %}
+          <div class="form-text">Hold Ctrl (Windows) or Command (Mac) to select multiple team members</div>
+        </div>
+
+        <div class="mt-4">
+          <button type="submit" class="btn btn-primary">
+            {% if form.instance.id %}
+              Update Task
+            {% else %}
+              Create Task
+            {% endif %}
+          </button>
+          <a href="{% url 'task-list' %}" class="btn btn-outline-secondary">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

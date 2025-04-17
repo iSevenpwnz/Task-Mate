@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Team Members - Task Manager{% endblock %}
+
+{% block content %}
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Team Members</h1>
+  </div>
+
+  {% if worker_list %}
+    <div class="row">
+      {% for worker in worker_list %}
+        <div class="col-md-4 mb-4">
+          <div class="card h-100">
+            <div class="card-body">
+              <h5 class="card-title">{{ worker.first_name }} {{ worker.last_name }}</h5>
+              {% if worker.position %}
+                <h6 class="card-subtitle mb-2 text-muted">{{ worker.position }}</h6>
+              {% endif %}
+              <p class="card-text">
+                <strong>Username:</strong> {{ worker.username }}<br>
+                <strong>Email:</strong> {{ worker.email }}
+              </p>
+              <a href="{% url 'worker-detail' worker.id %}" class="btn btn-outline-primary btn-sm">View Profile</a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="alert alert-info">
+      <p>No team members found.</p>
+    </div>
+  {% endif %}
+{% endblock %}

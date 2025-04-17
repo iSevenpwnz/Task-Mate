@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Delete Task Type - Task Manager{% endblock %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header bg-danger text-white">
+      <h2>Delete Task Type</h2>
+    </div>
+
+    <div class="card-body">
+      <p class="lead">Are you sure you want to delete the task type "{{ tasktype.name }}"?</p>
+
+      <div class="alert alert-warning">
+        <p><strong>Warning:</strong> This action cannot be undone. Tasks with this type will need to be reassigned.</p>
+      </div>
+
+      <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Yes, Delete</button>
+        <a href="{% url 'tasktype-list' %}" class="btn btn-outline-secondary">Cancel</a>
+      </form>
+    </div>
+  </div>
+{% endblock %}
