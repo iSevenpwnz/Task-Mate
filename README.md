@@ -178,7 +178,8 @@ python manage.py runserver
 - **forms.py** - defines forms for creating and editing objects
 - **templates/** - HTML templates for page rendering
 - **fixtures/** - initial data for populating the database
-- **tests/** - unit and integration tests for the project
+- **tests/** - unit and integration tests for the project![It_Company_Task_Manager_a8510d162c](https://github.com/user-attachments/assets/d8328b6f-9914-4a60-8293-106517803ee9)
+
 
 ## Testing
 
