@@ -7,10 +7,10 @@
     <div class="card-header d-flex justify-content-between align-items-center">
       <h2>{{ task.name }}</h2>
       <div class="btn-group">
-        <a href="{% url 'task-update' task.id %}" class="btn btn-outline-primary">Edit</a>
-        <a href="{% url 'task-delete' task.id %}" class="btn btn-outline-danger">Delete</a>
+        <a href="{% url 'task_app:task-update' task.id %}" class="btn btn-outline-primary">Edit</a>
+        <a href="{% url 'task_app:task-delete' task.id %}" class="btn btn-outline-danger">Delete</a>
         {% if not task.is_completed %}
-          <a href="{% url 'task-complete' task.id %}" class="btn btn-success">Mark as Complete</a>
+          <a href="{% url 'task_app:task-complete' task.id %}" class="btn btn-success">Mark as Complete</a>
         {% endif %}
       </div>
     </div>
@@ -70,7 +70,7 @@
             {% for worker in task.assignees.all %}
               <li class="list-group-item d-flex justify-content-between align-items-center">
                 <div>
-                  <a href="{% url 'worker-detail' worker.id %}">{{ worker.first_name }} {{ worker.last_name }}</a>
+                  <a href="{% url 'accounts:worker-detail' worker.id %}">{{ worker.first_name }} {{ worker.last_name }}</a>
                   {% if worker.position %}
                     <span class="badge bg-secondary">{{ worker.position }}</span>
                   {% endif %}
@@ -86,7 +86,7 @@
     </div>
 
     <div class="card-footer text-muted">
-      <a href="{% url 'task-list' %}" class="btn btn-outline-secondary">Back to All Tasks</a>
+      <a href="{% url 'task_app:task-list' %}" class="btn btn-outline-secondary">Back to All Tasks</a>
     </div>
   </div>
 {% endblock %}

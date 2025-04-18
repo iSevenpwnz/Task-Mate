@@ -5,12 +5,13 @@
 {% block content %}
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h1>Tasks</h1>
-    <a href="{% url 'task-create' %}" class="btn btn-primary">Create New Task</a>
+    <a href="{% url 'task_app:task-create' %}" class="btn btn-primary">Create New Task</a>
   </div>
 
   <div class="card mb-4">
     <div class="card-header">
-      <a class="btn" data-bs-toggle="collapse" href="#filterCollapse" role="button" aria-expanded="false" aria-controls="filterCollapse">
+      <a class="btn" data-bs-toggle="collapse" href="#filterCollapse" role="button" aria-expanded="false"
+         aria-controls="filterCollapse">
         <i class="bi bi-funnel"></i> Filter Tasks
       </a>
     </div>
@@ -43,7 +44,7 @@
           </div>
           <div class="col-12">
             <button type="submit" class="btn btn-primary">Apply Filters</button>
-            <a href="{% url 'task-list' %}" class="btn btn-outline-secondary">Clear Filters</a>
+            <a href="{% url 'task_app:task-list' %}" class="btn btn-outline-secondary">Clear Filters</a>
           </div>
         </form>
       </div>
@@ -66,7 +67,7 @@
         <tbody>
         {% for task in task_list %}
           <tr class="{% if task.is_completed %}task-completed{% elif task.priority == 'Urgent' %}task-urgent{% elif task.priority == 'High' %}task-high{% endif %}">
-            <td><a href="{% url 'task-detail' task.id %}">{{ task.name }}</a></td>
+            <td><a href="{% url 'task_app:task-detail' task.id %}">{{ task.name }}</a></td>
             <td>{{ task.task_type }}</td>
             <td>{{ task.priority }}</td>
             <td>{{ task.deadline }}</td>
@@ -79,10 +80,10 @@
             </td>
             <td>
               <div class="btn-group btn-group-sm">
-                <a href="{% url 'task-detail' task.id %}" class="btn btn-outline-primary">View</a>
-                <a href="{% url 'task-update' task.id %}" class="btn btn-outline-secondary">Edit</a>
+                <a href="{% url 'task_app:task-detail' task.id %}" class="btn btn-outline-primary">View</a>
+                <a href="{% url 'task_app:task-update' task.id %}" class="btn btn-outline-secondary">Edit</a>
                 {% if not task.is_completed %}
-                  <a href="{% url 'task-complete' task.id %}" class="btn btn-outline-success">Complete</a>
+                  <a href="{% url 'task_app:task-complete' task.id %}" class="btn btn-outline-success">Complete</a>
                 {% endif %}
               </div>
             </td>
@@ -97,10 +98,13 @@
         <ul class="pagination justify-content-center">
           {% if page_obj.has_previous %}
             <li class="page-item">
-              <a class="page-link" href="?page=1{% for key, value in current_filters.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">&laquo; First</a>
+              <a class="page-link" href="?page=1
+                  {% for key, value in current_filters.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">&laquo;
+                First</a>
             </li>
             <li class="page-item">
-              <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% for key, value in current_filters.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">Previous</a>
+              <a class="page-link" href="?page=
+                  {{ page_obj.previous_page_number }}{% for key, value in current_filters.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">Previous</a>
             </li>
           {% endif %}
 
@@ -112,10 +116,13 @@
 
           {% if page_obj.has_next %}
             <li class="page-item">
-              <a class="page-link" href="?page={{ page_obj.next_page_number }}{% for key, value in current_filters.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">Next</a>
+              <a class="page-link" href="?page=
+                  {{ page_obj.next_page_number }}{% for key, value in current_filters.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">Next</a>
             </li>
             <li class="page-item">
-              <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% for key, value in current_filters.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">Last &raquo;</a>
+              <a class="page-link" href="?page=
+                  {{ page_obj.paginator.num_pages }}{% for key, value in current_filters.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">Last
+                &raquo;</a>
             </li>
           {% endif %}
         </ul>
@@ -125,7 +132,7 @@
   {% else %}
     <div class="alert alert-info">
       <p>No tasks found.</p>
-      <a href="{% url 'task-create' %}" class="btn btn-primary">Create First Task</a>
+      <a href="{% url 'task_app:task-create' %}" class="btn btn-primary">Create First Task</a>
     </div>
   {% endif %}
 {% endblock %}

@@ -19,8 +19,8 @@
       <form method="post">
         {% csrf_token %}
         <button type="submit" class="btn btn-danger">Yes, Delete</button>
-        <a href="{% url 'position-list' %}" class="btn btn-outline-secondary">Cancel</a>
+        <a href="{% url 'accounts:position-list' %}" class="btn btn-outline-secondary">Cancel</a>
       </form>
     </div>
   </div>
-{% endblock %}
+{% endblock %} 

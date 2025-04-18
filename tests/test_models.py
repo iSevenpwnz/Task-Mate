@@ -3,7 +3,8 @@ from django.urls import reverse
 from django.utils import timezone
 from datetime import date, timedelta
 
-from task_app.models import Task, Worker, Position, TaskType
+from task_app.models import Task, TaskType
+from accounts.models import Worker, Position
 
 
 class PositionModelTest(TestCase):

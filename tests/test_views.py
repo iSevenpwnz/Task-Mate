@@ -4,7 +4,8 @@ from django.contrib.auth import get_user_model
 from django.utils import timezone
 from datetime import date, timedelta
 
-from task_app.models import Task, Worker, Position, TaskType
+from task_app.models import Task, TaskType
+from accounts.models import Worker, Position
 
 
 class IndexViewTest(TestCase):
@@ -29,7 +30,7 @@ class IndexViewTest(TestCase):
         )
 
     def test_index_view(self):
-        response = self.client.get(reverse("index"))
+        response = self.client.get(reverse("task_app:index"))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "task_app/index.html")
         self.assertEqual(response.context["num_tasks"], 1)
@@ -61,21 +62,21 @@ class TaskViewsTest(TestCase):
         self.client.login(username="testuser", password="testpassword123")
 
     def test_task_list_view(self):
-        response = self.client.get(reverse("task-list"))
+        response = self.client.get(reverse("task_app:task-list"))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "task_app/task_list.html")
         self.assertContains(response, "Implement login")
 
     def test_task_detail_view(self):
-        response = self.client.get(reverse("task-detail", kwargs={"pk": self.task.pk}))
+        response = self.client.get(reverse("task_app:task-detail", kwargs={"pk": self.task.pk}))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "task_app/task_detail.html")
         self.assertEqual(response.context["task"], self.task)
 
     def test_task_complete(self):
         self.assertFalse(self.task.is_completed)
-        response = self.client.get(reverse("task-complete", kwargs={"pk": self.task.pk}))
-        self.assertRedirects(response, reverse("task-detail", kwargs={"pk": self.task.pk}))
+        response = self.client.get(reverse("task_app:task-complete", kwargs={"pk": self.task.pk}))
+        self.assertRedirects(response, reverse("task_app:task-detail", kwargs={"pk": self.task.pk}))
 
         self.task.refresh_from_db()
         self.assertTrue(self.task.is_completed)
@@ -104,15 +105,15 @@ class WorkerViewsTest(TestCase):
         self.client.login(username="admin", password="admin123")
 
     def test_worker_list_view(self):
-        response = self.client.get(reverse("worker-list"))
+        response = self.client.get(reverse("accounts:worker-list"))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "task_app/worker_list.html")
+        self.assertTemplateUsed(response, "accounts/worker_list.html")
         self.assertContains(response, "worker1")
 
     def test_worker_detail_view(self):
-        response = self.client.get(reverse("worker-detail", kwargs={"pk": self.worker.pk}))
+        response = self.client.get(reverse("accounts:worker-detail", kwargs={"pk": self.worker.pk}))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "task_app/worker_detail.html")
+        self.assertTemplateUsed(response, "accounts/worker_detail.html")
         self.assertEqual(response.context["worker"], self.worker)
 
 
@@ -131,13 +132,13 @@ class PositionAndTaskTypeViewsTest(TestCase):
         self.client.login(username="admin", password="admin123")
 
     def test_position_list_view(self):
-        response = self.client.get(reverse("position-list"))
+        response = self.client.get(reverse("accounts:position-list"))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "task_app/position_list.html")
+        self.assertTemplateUsed(response, "accounts/position_list.html")
         self.assertContains(response, "Project Manager")
 
     def test_tasktype_list_view(self):
-        response = self.client.get(reverse("tasktype-list"))
+        response = self.client.get(reverse("task_app:tasktype-list"))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "task_app/tasktype_list.html")
         self.assertContains(response, "Documentation")

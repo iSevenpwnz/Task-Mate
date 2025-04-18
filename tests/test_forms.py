@@ -4,12 +4,15 @@ from datetime import date, timedelta
 
 from task_app.forms import (
     TaskForm,
-    PositionForm,
     TaskTypeForm,
+)
+from accounts.forms import (
+    PositionForm,
     WorkerCreationForm,
     WorkerUpdateForm,
 )
-from task_app.models import Task, Worker, Position, TaskType
+from task_app.models import Task, TaskType
+from accounts.models import Worker, Position
 
 
 class TaskFormTest(TestCase):

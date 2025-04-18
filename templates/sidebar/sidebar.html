@@ -7,57 +7,57 @@
   <div class="sidebar-content">
     <ul class="sidebar-menu">
       <li class="sidebar-item {% if request.path == '/' %}active{% endif %}">
-        <a href="{% url 'index' %}">
+        <a href="{% url 'task_app:index' %}">
           <i class="fas fa-home"></i>
           <span>Dashboard</span>
         </a>
       </li>
       <li class="sidebar-item {% if 'task-list' in request.path %}active{% endif %}">
-        <a href="{% url 'task-list' %}">
+        <a href="{% url 'task_app:task-list' %}">
           <i class="fas fa-tasks"></i>
           <span>Tasks</span>
         </a>
       </li>
       {% if user.is_authenticated %}
         <li class="sidebar-item {% if 'position-list' in request.path %}active{% endif %}">
-          <a href="{% url 'position-list' %}">
+          <a href="{% url 'accounts:position-list' %}">
             <i class="fas fa-briefcase"></i>
             <span>Positions</span>
           </a>
         </li>
         <li class="sidebar-item {% if 'tasktype-list' in request.path %}active{% endif %}">
-          <a href="{% url 'tasktype-list' %}">
+          <a href="{% url 'task_app:tasktype-list' %}">
             <i class="fas fa-tag"></i>
             <span>Task Types</span>
           </a>
         </li>
         <li class="sidebar-item {% if 'worker-list' in request.path %}active{% endif %}">
-          <a href="{% url 'worker-list' %}">
+          <a href="{% url 'accounts:worker-list' %}">
             <i class="fas fa-users"></i>
             <span>Workers</span>
           </a>
         </li>
         <li class="sidebar-item {% if 'worker-detail' in request.path and worker.pk == user.pk %}active{% endif %}">
-          <a href="{% url 'worker-detail' user.pk %}">
+          <a href="{% url 'accounts:worker-detail' user.pk %}">
             <i class="fas fa-user"></i>
             <span>My Profile</span>
           </a>
         </li>
         <li class="sidebar-item">
-          <a href="{% url 'logout' %}">
+          <a href="{% url 'accounts:logout' %}">
             <i class="fas fa-sign-out-alt"></i>
             <span>Logout</span>
           </a>
         </li>
       {% else %}
         <li class="sidebar-item {% if 'login' in request.path %}active{% endif %}">
-          <a href="{% url 'login' %}">
+          <a href="{% url 'accounts:login' %}">
             <i class="fas fa-sign-in-alt"></i>
             <span>Login</span>
           </a>
         </li>
         <li class="sidebar-item {% if request.path == '/accounts/register/' %}active{% endif %}">
-          <a href="{% url 'register' %}">
+          <a href="{% url 'accounts:register' %}">
             <i class="fas fa-user-plus"></i>
             <span>Register</span>
           </a>

@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "task_app",
+    "accounts",
 ]
 
 MIDDLEWARE = [
@@ -72,7 +73,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # Custom user model
-AUTH_USER_MODEL = "task_app.Worker"
+AUTH_USER_MODEL = "accounts.Worker"
 
 # Login redirect
 LOGIN_REDIRECT_URL = "/"

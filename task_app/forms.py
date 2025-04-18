@@ -1,7 +1,8 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
 
-from .models import Task, Worker, Position, TaskType
+from accounts.models import Worker
+from accounts.forms import PositionForm
+from task_app.models import Task, TaskType
 
 
 class TaskForm(forms.ModelForm):
@@ -58,39 +59,7 @@ class TaskFilterForm(forms.Form):
     )
 
 
-class PositionForm(forms.ModelForm):
-    class Meta:
-        model = Position
-        fields = ["name"]
-
-
 class TaskTypeForm(forms.ModelForm):
     class Meta:
         model = TaskType
         fields = ["name"]
-
-
-class WorkerCreationForm(UserCreationForm):
-    class Meta:
-        model = Worker
-        fields = [
-            "username",
-            "first_name",
-            "last_name",
-            "email",
-            "position",
-            "password1",
-            "password2",
-        ]
-
-
-class WorkerUpdateForm(forms.ModelForm):
-    class Meta:
-        model = Worker
-        fields = [
-            "username",
-            "first_name",
-            "last_name",
-            "email",
-            "position",
-        ]

@@ -1,25 +1,13 @@
 from django.urls import path
-from django.contrib.auth import views as auth_views
 
-from . import views
+from task_app import views
+
+app_name = 'task_app'
 
 urlpatterns = [
     path(
         "", views.index,
         name="index"
-    ),
-
-    path(
-        "accounts/login/",
-        auth_views.LoginView.as_view(template_name="registration/login.html"),
-        name="login"
-    ),
-    path(
-        "accounts/logout/", views.logout_view, name="logout"
-    ),
-    path(
-        "accounts/register/", views.WorkerCreateView.as_view(),
-        name="register"
     ),
 
     path(
@@ -43,41 +31,7 @@ urlpatterns = [
         name="task-delete"
     ),
     path(
-        "tasks/<int:pk>/complete/", views.complete_task, name="task-complete"
-    ),
-
-    path(
-        "workers/", views.WorkerListView.as_view(),
-        name="worker-list"
-    ),
-    path(
-        "workers/<int:pk>/", views.WorkerDetailView.as_view(),
-        name="worker-detail"
-    ),
-    path(
-        "workers/<int:pk>/update/", views.WorkerUpdateView.as_view(),
-        name="worker-update"
-    ),
-    path(
-        "workers/<int:pk>/delete/", views.WorkerDeleteView.as_view(),
-        name="worker-delete"
-    ),
-
-    path(
-        "positions/", views.PositionListView.as_view(),
-        name="position-list"
-    ),
-    path(
-        "positions/create/", views.PositionCreateView.as_view(),
-        name="position-create"
-    ),
-    path(
-        "positions/<int:pk>/update/", views.PositionUpdateView.as_view(),
-        name="position-update"
-    ),
-    path(
-        "positions/<int:pk>/delete/", views.PositionDeleteView.as_view(),
-        name="position-delete"
+        "tasks/<int:pk>/complete/", views.CompleteTaskView.as_view(), name="task-complete"
     ),
 
     path(

@@ -8,9 +8,9 @@
       <h2>{{ worker.first_name }} {{ worker.last_name }}</h2>
       {% if user.id == worker.id or user.is_superuser %}
         <div>
-          <a href="{% url 'worker-update' worker.id %}" class="btn btn-outline-primary">Edit Profile</a>
+          <a href="{% url 'accounts:worker-update' worker.id %}" class="btn btn-outline-primary">Edit Profile</a>
           {% if user.is_superuser and user.id != worker.id %}
-            <a href="{% url 'worker-delete' worker.id %}" class="btn btn-outline-danger">Delete</a>
+            <a href="{% url 'accounts:worker-delete' worker.id %}" class="btn btn-outline-danger">Delete</a>
           {% endif %}
         </div>
       {% endif %}
@@ -67,7 +67,7 @@
                     {% endif %}
                   </td>
                   <td>
-                    <a href="{% url 'task-detail' task.id %}" class="btn btn-outline-primary btn-sm">View</a>
+                    <a href="{% url 'task_app:task-detail' task.id %}" class="btn btn-outline-primary btn-sm">View</a>
                   </td>
                 </tr>
               {% endfor %}
@@ -81,7 +81,7 @@
     </div>
 
     <div class="card-footer text-muted">
-      <a href="{% url 'worker-list' %}" class="btn btn-outline-secondary">Back to Team</a>
+      <a href="{% url 'accounts:worker-list' %}" class="btn btn-outline-secondary">Back to Team</a>
     </div>
   </div>
-{% endblock %}
+{% endblock %} 

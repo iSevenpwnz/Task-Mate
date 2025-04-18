@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Team - Task Manager{% endblock %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h2>Team Members</h2>
+    </div>
+
+    <div class="card-body">
+      {% if worker_list %}
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th>Name</th>
+              <th>Position</th>
+              <th>Email</th>
+              <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for worker in worker_list %}
+              <tr>
+                <td>{{ worker.first_name }} {{ worker.last_name }}</td>
+                <td>{{ worker.position|default:"Not specified" }}</td>
+                <td>{{ worker.email }}</td>
+                <td>
+                  <a href="{% url 'accounts:worker-detail' worker.id %}" class="btn btn-outline-primary btn-sm">View</a>
+                  {% if user.is_superuser %}
+                    <a href="{% url 'accounts:worker-update' worker.id %}"
+                       class="btn btn-outline-secondary btn-sm">Edit</a>
+                    <a href="{% url 'accounts:worker-delete' worker.id %}"
+                       class="btn btn-outline-danger btn-sm">Delete</a>
+                  {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <p>There are no team members registered.</p>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %} 

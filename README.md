@@ -71,10 +71,27 @@ python manage.py runserver
 
 ## Структура проекту
 
-- **models.py** - визначає моделі даних (Worker, Task, Position, TaskType)
-- **views.py** - містить логіку обробки HTTP запитів
-- **forms.py** - визначає форми для створення та редагування об'єктів
+Проект розділений на два окремі Django-додатки для чіткого розділення функціональності:
+
+### Додаток `accounts`
+- Відповідає за користувачів та автентифікацію
+- Управління працівниками (Worker)
+- Управління посадами (Position)
+- Реєстрація, вхід та вихід із системи
+
+### Додаток `task_app`
+- Основний функціонал управління завданнями
+- Завдання (Task) та їх типи (TaskType)
+- Призначення завдань працівникам
+- Фільтрація та відстеження завдань
+
+Основні файли проекту:
+- **accounts/models.py** - моделі працівників та посад
+- **accounts/views.py** - логіка для управління користувачами
+- **task_app/models.py** - моделі завдань та їх типів
+- **task_app/views.py** - логіка для управління завданнями
 - **templates/** - HTML шаблони для відображення сторінок
+- **static/** - статичні файли CSS та JavaScript
 - **fixtures/** - початкові дані для наповнення бази даних
 - **tests/** - модульні та інтеграційні тести проекту
 
@@ -83,7 +100,7 @@ python manage.py runserver
 Проект включає набір тестів для забезпечення коректності роботи всіх компонентів:
 
 - **test_models.py** - тести для моделей, які перевіряють їх атрибути, методи та зв'язки
-- **test_views.py** - тести для представлень, які перевіряють відповіді сервера та контекст шаблонів
+- **test_views.py** - тести для пр едставлень, які перевіряють відповіді сервера та контекст шаблонів
 - **test_forms.py** - тести для форм, які перевіряють валідацію даних
 
 Для запуску тестів використовуйте команду:
@@ -173,10 +190,27 @@ python manage.py runserver
 
 ## Project Structure
 
-- **models.py** - defines data models (Worker, Task, Position, TaskType)
-- **views.py** - contains HTTP request handling logic
-- **forms.py** - defines forms for creating and editing objects
+The project is divided into two separate Django apps for clear separation of functionality:
+
+### `accounts` App
+- Responsible for users and authentication
+- Worker management
+- Position management
+- Registration, login, and logout
+
+### `task_app` App
+- Core task management functionality
+- Tasks and task types
+- Assigning tasks to workers
+- Filtering and tracking tasks
+
+Main project files:
+- **accounts/models.py** - worker and position models
+- **accounts/views.py** - user management logic
+- **task_app/models.py** - task and task type models
+- **task_app/views.py** - task management logic
 - **templates/** - HTML templates for page rendering
+- **static/** - static CSS and JavaScript files
 - **fixtures/** - initial data for populating the database
 - **tests/** - unit and integration tests for the project![It_Company_Task_Manager_a8510d162c](https://github.com/user-attachments/assets/d8328b6f-9914-4a60-8293-106517803ee9)
 
@@ -190,8 +224,7 @@ The project includes a comprehensive test suite to ensure all components functio
 - **test_forms.py** - tests for forms that check data validation
 
 To run tests, use the command:
-```
-python manage.py test tests
+```python manage.py test tests
 ```
 
 ## Usage
@@ -200,3 +233,4 @@ python manage.py test tests
 2. Log in to the system (for test data, use login: admin, and create a new password)
 3. In the "Tasks" section, you can view existing tasks, create new ones, and manage them
 4. In the "Workers" section, you can add new team members and assign them positions
+

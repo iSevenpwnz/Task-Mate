@@ -144,9 +144,10 @@
               </button>
 
               {% if form.instance.id %}
-                <a href="{% url 'worker-detail' form.instance.id %}" class="btn btn-outline-secondary">Cancel</a>
+                <a href="{% url 'accounts:worker-detail' form.instance.id %}"
+                   class="btn btn-outline-secondary">Cancel</a>
               {% else %}
-                <a href="{% url 'login' %}" class="btn btn-outline-secondary">Cancel</a>
+                <a href="{% url 'accounts:login' %}" class="btn btn-outline-secondary">Cancel</a>
               {% endif %}
             </div>
           </form>
@@ -154,4 +155,4 @@
       </div>
     </div>
   </div>
-{% endblock %}
+{% endblock %} 
