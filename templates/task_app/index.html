@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Task Manager{% endblock %}
+
+{% block content %}
+  <div class="jumbotron bg-light p-5 rounded-3">
+    <h1 class="display-4">Welcome to Task Manager</h1>
+    <p class="lead">A simple and effective way to manage tasks in your team</p>
+
+    {% if user.is_authenticated %}
+      <div class="mt-4">
+        <a href="{% url 'task_app:task-create' %}" class="btn btn-primary btn-lg me-2">Create New Task</a>
+        <a href="{% url 'task_app:task-list' %}" class="btn btn-outline-secondary btn-lg">View All Tasks</a>
+      </div>
+    {% else %}
+      <div class="mt-4">
+        <a href="{% url 'accounts:login' %}" class="btn btn-primary btn-lg me-2">Login</a>
+        <a href="{% url 'accounts:register' %}" class="btn btn-outline-secondary btn-lg">Register</a>
+      </div>
+    {% endif %}
+  </div>
+
+  {% if user.is_authenticated %}
+    <div class="row mt-5">
+      <div class="col-md-3">
+        <div class="card text-bg-primary mb-3">
+          <div class="card-body text-center">
+            <h5 class="card-title">Tasks</h5>
+            <p class="card-text display-4">{{ num_tasks }}</p>
+            <a href="{% url 'task_app:task-list' %}" class="btn btn-light btn-sm">View All</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="card text-bg-success mb-3">
+          <div class="card-body text-center">
+            <h5 class="card-title">Team Members</h5>
+            <p class="card-text display-4">{{ num_workers }}</p>
+            <a href="{% url 'accounts:worker-list' %}" class="btn btn-light btn-sm">View All</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="card text-bg-info mb-3">
+          <div class="card-body text-center">
+            <h5 class="card-title">Positions</h5>
+            <p class="card-text display-4">{{ num_positions }}</p>
+            <a href="{% url 'accounts:position-list' %}" class="btn btn-light btn-sm">View All</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="card text-bg-warning mb-3">
+          <div class="card-body text-center">
+            <h5 class="card-title">Task Types</h5>
+            <p class="card-text display-4">{{ num_task_types }}</p>
+            <a href="{% url 'task_app:tasktype-list' %}" class="btn btn-light btn-sm">View All</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+{% endblock %}
