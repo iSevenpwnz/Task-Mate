@@ -5,6 +5,8 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.contrib.auth import logout
 from django.contrib import messages
+from django.db.models import Q
+from datetime import datetime
 
 from .forms import (
     TaskForm,
@@ -12,6 +14,7 @@ from .forms import (
     TaskTypeForm,
     WorkerCreationForm,
     WorkerUpdateForm,
+    TaskFilterForm,
 )
 from .models import Task, Worker, Position, TaskType
 
@@ -39,7 +42,54 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return Task.objects.all().order_by("deadline")
+        queryset = Task.objects.all().order_by("deadline")
+
+        task_type_id = self.request.GET.get('task_type')
+        is_completed = self.request.GET.get('is_completed')
+        deadline_from = self.request.GET.get('deadline_from')
+        deadline_to = self.request.GET.get('deadline_to')
+        assignee_id = self.request.GET.get('assignee')
+        search_query = self.request.GET.get('search_query')
+
+        if task_type_id:
+            queryset = queryset.filter(task_type_id=task_type_id)
+        
+        if is_completed:
+            if is_completed == 'True':
+                queryset = queryset.filter(is_completed=True)
+            elif is_completed == 'False':
+                queryset = queryset.filter(is_completed=False)
+        
+        if deadline_from:
+            try:
+                from_date = datetime.strptime(deadline_from, '%Y-%m-%d').date()
+                queryset = queryset.filter(deadline__gte=from_date)
+            except ValueError:
+                pass
+        
+        if deadline_to:
+            try:
+                to_date = datetime.strptime(deadline_to, '%Y-%m-%d').date()
+                queryset = queryset.filter(deadline__lte=to_date)
+            except ValueError:
+                pass
+        
+        if assignee_id:
+            queryset = queryset.filter(assignee_id=assignee_id)
+        
+        if search_query:
+            queryset = queryset.filter(
+                Q(name__icontains=search_query) | 
+                Q(description__icontains=search_query)
+            )
+            
+        return queryset
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['filter_form'] = TaskFilterForm(self.request.GET)
+        context['current_filters'] = self.request.GET.dict()
+        return context
 
 
 class TaskDetailView(LoginRequiredMixin, generic.DetailView):
