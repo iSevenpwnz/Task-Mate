@@ -1,10 +1,11 @@
+from datetime import datetime
+
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import generic
 from django.views.generic import RedirectView
-from django.db.models import Q
-from datetime import datetime
 
 from accounts.models import Worker, Position
 from task_app.forms import (
@@ -49,38 +50,38 @@ class TaskListView(LoginRequiredMixin, generic.ListView):
 
         if task_type_id:
             queryset = queryset.filter(task_type_id=task_type_id)
-        
+
         if is_completed:
             if is_completed == 'True':
                 queryset = queryset.filter(is_completed=True)
             elif is_completed == 'False':
                 queryset = queryset.filter(is_completed=False)
-        
+
         if deadline_from:
             try:
                 from_date = datetime.strptime(deadline_from, '%Y-%m-%d').date()
                 queryset = queryset.filter(deadline__gte=from_date)
             except ValueError:
                 pass
-        
+
         if deadline_to:
             try:
                 to_date = datetime.strptime(deadline_to, '%Y-%m-%d').date()
                 queryset = queryset.filter(deadline__lte=to_date)
             except ValueError:
                 pass
-        
+
         if assignee_id:
             queryset = queryset.filter(assignee_id=assignee_id)
-        
+
         if search_query:
             queryset = queryset.filter(
-                Q(name__icontains=search_query) | 
+                Q(name__icontains=search_query) |
                 Q(description__icontains=search_query)
             )
-            
+
         return queryset
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['filter_form'] = TaskFilterForm(self.request.GET)
@@ -115,8 +116,8 @@ class TaskDeleteView(LoginRequiredMixin, generic.DeleteView):
 
 class CompleteTaskView(LoginRequiredMixin, RedirectView):
     def get_redirect_url(self, *args, **kwargs):
-        return reverse_lazy("task_app:task-detail", kwargs={"pk": kwargs.get("pk")})
-    
+        return reverse_lazy("task_app:task-list")
+
     def get(self, request, *args, **kwargs):
         task = get_object_or_404(Task, pk=kwargs.get("pk"))
         task.is_completed = True

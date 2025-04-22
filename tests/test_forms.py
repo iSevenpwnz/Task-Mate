@@ -1,18 +1,18 @@
-from django.test import TestCase
-from django.utils import timezone
 from datetime import date, timedelta
 
-from task_app.forms import (
-    TaskForm,
-    TaskTypeForm,
-)
+from django.test import TestCase
+
 from accounts.forms import (
     PositionForm,
     WorkerCreationForm,
     WorkerUpdateForm,
 )
-from task_app.models import Task, TaskType
 from accounts.models import Worker, Position
+from task_app.forms import (
+    TaskForm,
+    TaskTypeForm,
+)
+from task_app.models import TaskType
 
 
 class TaskFormTest(TestCase):
@@ -34,12 +34,12 @@ class TaskFormTest(TestCase):
         }
         form = TaskForm(data=form_data)
         self.assertTrue(form.is_valid())
-        
+
     def test_task_form_no_data(self):
         form = TaskForm(data={})
         self.assertFalse(form.is_valid())
         self.assertEqual(len(form.errors), 6)
-        
+
     def test_task_form_invalid_date(self):
         form_data = {
             "name": "Fix login bug",
@@ -59,7 +59,7 @@ class PositionFormTest(TestCase):
         form_data = {"name": "Developer"}
         form = PositionForm(data=form_data)
         self.assertTrue(form.is_valid())
-        
+
     def test_position_form_no_data(self):
         form = PositionForm(data={})
         self.assertFalse(form.is_valid())
@@ -71,7 +71,7 @@ class TaskTypeFormTest(TestCase):
         form_data = {"name": "Feature Development"}
         form = TaskTypeForm(data=form_data)
         self.assertTrue(form.is_valid())
-        
+
     def test_tasktype_form_no_data(self):
         form = TaskTypeForm(data={})
         self.assertFalse(form.is_valid())
@@ -81,7 +81,7 @@ class TaskTypeFormTest(TestCase):
 class WorkerCreationFormTest(TestCase):
     def setUp(self):
         self.position = Position.objects.create(name="Designer")
-        
+
     def test_worker_creation_form_valid_data(self):
         form_data = {
             "username": "newuser",
@@ -94,7 +94,7 @@ class WorkerCreationFormTest(TestCase):
         }
         form = WorkerCreationForm(data=form_data)
         self.assertTrue(form.is_valid())
-        
+
     def test_worker_creation_form_password_mismatch(self):
         form_data = {
             "username": "newuser",
@@ -120,7 +120,7 @@ class WorkerUpdateFormTest(TestCase):
             last_name="User",
             email="test@example.com",
         )
-        
+
     def test_worker_update_form_valid_data(self):
         form_data = {
             "username": "updateduser",
@@ -131,7 +131,7 @@ class WorkerUpdateFormTest(TestCase):
         }
         form = WorkerUpdateForm(data=form_data, instance=self.worker)
         self.assertTrue(form.is_valid())
-        
+
     def test_worker_update_form_no_data(self):
         form = WorkerUpdateForm(data={})
         self.assertFalse(form.is_valid())

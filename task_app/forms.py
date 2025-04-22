@@ -1,4 +1,6 @@
 from django import forms
+from django.utils import timezone
+from datetime import date
 
 from accounts.models import Worker
 from accounts.forms import PositionForm
@@ -17,7 +19,10 @@ class TaskForm(forms.ModelForm):
             "assignees",
         ]
         widgets = {
-            "deadline": forms.DateInput(attrs={"type": "date"}),
+            "deadline": forms.DateInput(attrs={
+                "type": "date",
+                "min": date.today().strftime("%Y-%m-%d")
+            }),
             "description": forms.Textarea(attrs={"rows": 4}),
             "assignees": forms.SelectMultiple(attrs={"class": "form-select"}),
         }

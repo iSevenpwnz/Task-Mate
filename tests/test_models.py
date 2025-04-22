@@ -1,10 +1,9 @@
-from django.test import TestCase
-from django.urls import reverse
-from django.utils import timezone
 from datetime import date, timedelta
 
-from task_app.models import Task, TaskType
+from django.test import TestCase
+
 from accounts.models import Worker, Position
+from task_app.models import Task, TaskType
 
 
 class PositionModelTest(TestCase):
@@ -39,7 +38,7 @@ class WorkerModelTest(TestCase):
     def test_worker_str_representation(self):
         worker = Worker.objects.get(username="tester")
         self.assertEqual(str(worker), "Test User (tester)")
-        
+
     def test_worker_position(self):
         worker = Worker.objects.get(username="tester")
         self.assertEqual(worker.position.name, "Designer")
@@ -65,17 +64,17 @@ class TaskModelTest(TestCase):
 
     def test_task_str_representation(self):
         self.assertEqual(str(self.task), "Create login page")
-        
+
     def test_task_priority(self):
         self.assertEqual(self.task.priority, "High")
-        
+
     def test_task_deadline(self):
         self.assertEqual(self.task.deadline, date.today() + timedelta(days=7))
-        
+
     def test_task_assignees(self):
         self.assertEqual(self.task.assignees.count(), 1)
         self.assertEqual(self.task.assignees.first().username, "developer")
-        
+
     def test_task_completion(self):
         self.assertFalse(self.task.is_completed)
         self.task.is_completed = True
