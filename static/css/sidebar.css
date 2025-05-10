@@ -1,0 +1,178 @@
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    padding-top: 56px;
+    overflow-x: hidden;
+}
+
+.page-container {
+    display: flex;
+    flex: 1 0 auto;
+    min-height: calc(100vh - 56px);
+    position: relative;
+    overflow-x: hidden;
+    width: 100%;
+}
+
+main {
+    flex: 1 0 auto;
+    padding-bottom: 30px;
+}
+
+footer {
+    flex-shrink: 0;
+    bottom: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+
+.sidebar {
+    width: 250px;
+    position: fixed;
+    top: 56px;
+    left: 0;
+    height: calc(100vh - 56px);
+    background-color: #343a40;
+    color: white;
+    padding-top: 20px;
+    transition: all 0.3s ease;
+    z-index: 999;
+    overflow-y: auto;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+
+.sidebar-header {
+    padding: 0 15px 20px 15px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-item {
+    padding: 10px 15px;
+    transition: all 0.3s;
+}
+
+.sidebar-item:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+.sidebar-item.active {
+    background-color: rgba(255,255,255,0.2);
+}
+
+.sidebar-item a {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.sidebar-item a i {
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
+}
+
+.content-with-sidebar {
+    margin-left: 250px;
+    width: calc(100% - 250px);
+    padding-bottom: 76px; /* Висота футера */
+    transition: all 0.3s ease;
+}
+
+.content-without-sidebar {
+    width: 100%;
+    padding-bottom: 76px; /* Висота футера */
+}
+
+
+@media (max-width: 768px) {
+    .sidebar {
+        left: -250px;
+        transform: translateX(-100%);
+        box-shadow: none;
+        visibility: hidden;
+    }
+    
+    .sidebar.active {
+        left: 0;
+        transform: translateX(0);
+        box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        visibility: visible;
+    }
+    
+    .content-with-sidebar {
+        margin-left: 0;
+        width: 100%;
+    }
+    
+    .page-container {
+        flex-direction: column;
+    }
+    
+    footer {
+        position: relative;
+    }
+}
+
+@media (max-width: 576px) {
+    .navbar-brand {
+        font-size: 1.25rem;
+    }
+    
+    .sidebar {
+        width: 80%;
+        max-width: 300px;
+        top: 56px;
+    }
+    
+    .content-with-sidebar, 
+    .content-without-sidebar {
+        padding-bottom: 30px;
+    }
+}
+
+/* Кнопка-гамбургер для відкриття сайдбару на мобільних */
+.sidebar-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background-color: #0d6efd;
+    color: white;
+    border-radius: 50%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    z-index: 1001;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.sidebar-toggle:hover {
+    background-color: #0b5ed7;
+    transform: scale(1.05);
+}
+
+.sidebar-toggle:active {
+    transform: scale(0.95);
+}
+
+/* Видаляємо відображення кнопки на мобільних пристроях */
+/* 
+@media (max-width: 768px) {
+    .sidebar-toggle {
+        display: flex;
+    }
+}
+*/

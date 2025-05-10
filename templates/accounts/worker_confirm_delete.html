@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Delete {{ worker.first_name }} {{ worker.last_name }} - Task Manager{% endblock %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header">
+      <h2>Delete Team Member</h2>
+    </div>
+
+    <div class="card-body">
+      <p>Are you sure you want to delete the team member <strong>{{ worker.first_name }} {{ worker.last_name }}</strong>?
+      </p>
+      <p class="text-danger">This action cannot be undone!</p>
+
+      <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Yes, Delete</button>
+        <a href="{% url 'accounts:worker-detail' worker.id %}" class="btn btn-outline-secondary">Cancel</a>
+      </form>
+    </div>
+  </div>
+{% endblock %} 
